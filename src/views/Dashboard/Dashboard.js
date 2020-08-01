@@ -75,7 +75,7 @@ export default function Dashboard() {
               <CardIcon color="success">
                 <Store />
               </CardIcon>
-              <p className={classes.cardCategory}>Total de Ativos</p>
+              <p className={classes.cardCategory}>Total em Ativos</p>
               <h3 className={classes.cardTitle}>$34,245</h3>
             </CardHeader>
             <CardFooter stats>
@@ -92,7 +92,7 @@ export default function Dashboard() {
               <CardIcon color="danger">
                 <Icon>info_outline</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Total em Cripto</p>
+              <p className={classes.cardCategory}>Total em Criptomoedas</p>
               <h3 className={classes.cardTitle}>$24.00</h3>
             </CardHeader>
             <CardFooter stats>
