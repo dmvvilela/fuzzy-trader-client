@@ -7,10 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
@@ -23,7 +19,6 @@ import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
 import Tasks from "components/Tasks/Tasks.js";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
-import Danger from "components/Typography/Danger.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
@@ -50,7 +45,7 @@ export default function Dashboard() {
   const isLoading = useSelector((state) => state.dashboard.isLoading);
   const errorMessage = useSelector((state) => state.dashboard.errorMessage);
   const stocks = useSelector((state) => state.dashboard.stocks);
-  const cripto = useSelector((state) => state.dashboard.cripto);
+  const cripto = useSelector((state) => state.dashboard.criptocoins);
 
   useEffect(() => {
     console.log("Fetching Assets...");
@@ -66,8 +61,8 @@ export default function Dashboard() {
     dispatch(getStock("sbux"));
   }, [dispatch]);
 
-  console.log(stocks);
-  console.log(cripto);
+  // console.log(stocks);
+  // console.log(cripto);
 
   return (
     <div>
@@ -78,20 +73,11 @@ export default function Dashboard() {
               <CardIcon color="warning">
                 <Icon>content_copy</Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Quantidade de Ativos</p>
-              <h3 className={classes.cardTitle}>
-                1/3 <small>Cripto/Ações</small>
-              </h3>
+              <p className={classes.cardCategory}>Investimentos</p>
+              <h3 className={classes.cardTitle}>1/3</h3>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats}>
-                <Danger>
-                  <Warning />
-                </Danger>
-                <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                  Get more space
-                </a>
-              </div>
+              <div className={classes.stats}>Criptomoedas/Ações</div>
             </CardFooter>
           </Card>
         </GridItem>
@@ -102,13 +88,10 @@ export default function Dashboard() {
                 <Store />
               </CardIcon>
               <p className={classes.cardCategory}>Total em Ativos</p>
-              <h3 className={classes.cardTitle}>$34,245</h3>
+              <h3 className={classes.cardTitle}>U$34,245</h3>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats}>
-                <DateRange />
-                Last 24 Hours
-              </div>
+              <div className={classes.stats}>Criptomoedas + Ações</div>
             </CardFooter>
           </Card>
         </GridItem>
@@ -119,13 +102,10 @@ export default function Dashboard() {
                 <Icon>info_outline</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Total em Criptomoedas</p>
-              <h3 className={classes.cardTitle}>$24.00</h3>
+              <h3 className={classes.cardTitle}>U$24,00</h3>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats}>
-                <LocalOffer />
-                Tracked from Github
-              </div>
+              <div className={classes.stats}>Investimentos em criptomedas</div>
             </CardFooter>
           </Card>
         </GridItem>
@@ -136,13 +116,10 @@ export default function Dashboard() {
                 <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total em Ações</p>
-              <h3 className={classes.cardTitle}>$245.00</h3>
+              <h3 className={classes.cardTitle}>U$245,00</h3>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats}>
-                <Update />
-                Just Updated
-              </div>
+              <div className={classes.stats}>Investimentos em ações</div>
             </CardFooter>
           </Card>
         </GridItem>

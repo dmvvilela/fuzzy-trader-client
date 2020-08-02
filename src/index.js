@@ -6,14 +6,13 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
 import rootReducer from "./store/reducers";
-import axios from "axios";
 
 // core components
 import Admin from "layouts/Admin.js";
 
 import "assets/css/material-dashboard-react.css?v=1.9.0";
 
-axios.defaults.baseURL = process.env.API_URL;
+// axios.defaults.baseURL = process.env.API_URL;
 
 const hist = createBrowserHistory();
 

@@ -26,8 +26,8 @@ const dashboardReducer = (state = initialState, action) => {
       };
 
     case GET_CRIPTOCOIN_SUCCESS:
-      const { code, value } = action;
-      criptocoins[code] = value;
+      const { code } = action.object;
+      criptocoins[code] = action.object;
 
       return {
         ...state,
@@ -50,11 +50,14 @@ const dashboardReducer = (state = initialState, action) => {
       };
 
     case GET_STOCK_SUCCESS:
+      const { symbol } = action.object;
+      stocks[symbol] = action.object;
+
       return {
         ...state,
         isLoading: false,
         errorMessage: "",
-        stocks: stocks.push(action.stock),
+        stocks,
       };
 
     case GET_STOCK_ERROR:

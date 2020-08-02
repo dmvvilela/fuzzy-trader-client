@@ -9,9 +9,9 @@ import {
 import { fetchCriptocoin } from "../../services/cripto.service";
 import { fetchStock } from "../../services/stocks.service";
 
-export const getCriptocoinSuccess = (criptocoin) => ({
+export const getCriptocoinSuccess = (object) => ({
   type: GET_CRIPTOCOIN_SUCCESS,
-  criptocoin,
+  object,
 });
 
 export const getCriptocoinError = (status, error) => ({
@@ -30,15 +30,15 @@ export const getCriptocoin = (coin) => async (dispatch) => {
     const resp = await fetchCriptocoin(coin);
 
     const code = resp["Meta Data"]["2. Digital Currency Code"];
-    console.log(code);
+    // console.log(code);
 
     const name = resp["Meta Data"]["3. Digital Currency Name"];
-    console.log(name);
+    // console.log(name);
 
     const value = Object.values(
       Object.values(resp["Time Series (Digital Currency Daily)"])[0]
     )[0];
-    console.log(value);
+    // console.log(value);
 
     dispatch(getCriptocoinSuccess({ code, name, value }));
   } catch (err) {
@@ -46,9 +46,9 @@ export const getCriptocoin = (coin) => async (dispatch) => {
   }
 };
 
-export const getStockSuccess = (stock) => ({
+export const getStockSuccess = (object) => ({
   type: GET_STOCK_SUCCESS,
-  stock,
+  object,
 });
 
 export const getStockError = (status, error) => ({
@@ -67,14 +67,12 @@ export const getStock = (stock) => async (dispatch) => {
     const resp = await fetchStock(stock);
 
     const symbol = resp.data.data[0]["symbol"];
-    console.log(symbol);
+    // console.log(symbol);
 
     const value = resp.data.data[0]["open"];
-    console.log(value);
+    // console.log(value);
 
-    console.log(resp);
-
-    dispatch(getStockSuccess(resp.data));
+    dispatch(getStockSuccess({ symbol, value }));
   } catch (err) {
     dispatch(getStockError(err));
   }

@@ -1,5 +1,5 @@
 const alpha = require("alphavantage")({
-  key: process.env.REACT_APP_ALPHA_AVANTAGE_API_KEY_1,
+  key: process.env.REACT_APP_ALPHA_AVANTAGE_API_KEY,
 });
 
 export const fetchCriptocoin = async (stock) => {
