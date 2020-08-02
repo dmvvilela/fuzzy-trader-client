@@ -13,6 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
+import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 
@@ -71,6 +72,9 @@ export default function Sidebar(props) {
           </NavLink>
         );
       })}
+      <Button color="primary" style={{ margin: 32 }}>
+        Reset DB
+      </Button>
     </List>
   );
   var brand = (

@@ -18,23 +18,13 @@ export default function Footer(props) {
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
-              <a href="#home" className={classes.block}>
-                Home
+              <a href="https://d2vsolutions.com" className={classes.block}>
+                Empresa
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#company" className={classes.block}>
-                Company
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a href="#portfolio" className={classes.block}>
+              <a href="https://danvilela.com" className={classes.block}>
                 Portfolio
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a href="#blog" className={classes.block}>
-                Blog
               </a>
             </ListItem>
           </List>
@@ -43,13 +33,12 @@ export default function Footer(props) {
           <span>
             &copy; {1900 + new Date().getYear()}{" "}
             <a
-              href="https://www.creative-tim.com?ref=mdr-footer"
+              href="https://danvilela.com"
               target="_blank"
               className={classes.a}
             >
-              Creative Tim
+              Daniel Vilela
             </a>
-            , made with love for a better web
           </span>
         </p>
       </div>

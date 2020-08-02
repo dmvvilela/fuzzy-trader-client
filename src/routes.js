@@ -1,68 +1,31 @@
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
-import UserProfile from "views/UserProfile/UserProfile.js";
-import TableList from "views/TableList/TableList.js";
-import Typography from "views/Typography/Typography.js";
-import Icons from "views/Icons/Icons.js";
-import Maps from "views/Maps/Maps.js";
-import NotificationsPage from "views/Notifications/Notifications.js";
+import InvestCripto from "views/InvestCripto/InvestCripto.js";
+import InvestStocks from "views/InvestStocks/InvestStocks";
 
 const dashboardRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Painel Fuzzy Trader",
     icon: Dashboard,
     component: DashboardPage,
     layout: "/admin",
   },
   {
-    path: "/user",
-    name: "User Profile",
+    path: "/invest/cripto",
+    name: "Investir em Criptomoeda",
     icon: Person,
-    component: UserProfile,
+    component: InvestCripto,
     layout: "/admin",
   },
   {
-    path: "/table",
-    name: "Table List",
+    path: "/invest/stocks",
+    name: "Investir em Ações",
     icon: "content_paste",
-    component: TableList,
-    layout: "/admin",
-  },
-  {
-    path: "/typography",
-    name: "Typography",
-    icon: LibraryBooks,
-    component: Typography,
-    layout: "/admin",
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: BubbleChart,
-    component: Icons,
-    layout: "/admin",
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: LocationOn,
-    component: Maps,
-    layout: "/admin",
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: Notifications,
-    component: NotificationsPage,
+    component: InvestStocks,
     layout: "/admin",
   },
 ];

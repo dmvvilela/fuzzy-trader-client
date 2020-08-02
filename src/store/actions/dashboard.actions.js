@@ -1,4 +1,7 @@
 import {
+  GET_INVESTED_ASSETS,
+  GET_INVESTED_ASSETS_SUCCESS,
+  GET_INVESTED_ASSETS_ERROR,
   GET_CRIPTOCOIN,
   GET_CRIPTOCOIN_SUCCESS,
   GET_CRIPTOCOIN_ERROR,
@@ -8,6 +11,33 @@ import {
 } from "./actionTypes";
 import { fetchCriptocoin } from "../../services/cripto.service";
 import { fetchStock } from "../../services/stocks.service";
+
+import axios from "axios";
+
+export const getInvestedAssetsSuccess = (assets) => ({
+  type: GET_INVESTED_ASSETS_SUCCESS,
+  assets,
+});
+
+export const getInvestedAssetsError = (status, error) => ({
+  type: GET_INVESTED_ASSETS_ERROR,
+  status,
+  error,
+});
+
+export const getInvestedAssets = () => async (dispatch) => {
+  dispatch({
+    type: GET_INVESTED_ASSETS,
+  });
+
+  try {
+    const resp = await axios.get(process.env.REACT_APP_API_URL + "/assets");
+
+    dispatch(getInvestedAssetsSuccess(resp.data));
+  } catch (err) {
+    dispatch(getInvestedAssetsError(err));
+  }
+};
 
 export const getCriptocoinSuccess = (object) => ({
   type: GET_CRIPTOCOIN_SUCCESS,

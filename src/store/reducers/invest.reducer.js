@@ -7,7 +7,6 @@ import {
 const initialState = {
   isLoading: false,
   errorMessage: "",
-  marvelCharacters: [],
 };
 
 const investReducer = (state = initialState, action) => {

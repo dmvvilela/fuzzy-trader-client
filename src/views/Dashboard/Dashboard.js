@@ -1,40 +1,37 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // react plugin for creating charts
-import ChartistGraph from "react-chartist";
+// import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
+// import ArrowUpward from "@material-ui/icons/ArrowUpward";
+// import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
-import Tasks from "components/Tasks/Tasks.js";
-import CustomTabs from "components/CustomTabs/CustomTabs.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
+import GridItem from "views/InvestCripto/node_modules/components/Grid/GridItem.js.js";
+import GridContainer from "views/InvestCripto/node_modules/components/Grid/GridContainer.js.js";
+import Table from "views/InvestCripto/node_modules/components/Table/Table.js.js";
+import Card from "views/InvestCripto/node_modules/components/Card/Card.js.js";
+import CardHeader from "views/InvestCripto/node_modules/components/Card/CardHeader.js.js";
 import CardIcon from "components/Card/CardIcon.js";
-import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
+import CardBody from "views/InvestCripto/node_modules/components/Card/CardBody.js.js";
+import CardFooter from "views/InvestCripto/node_modules/components/Card/CardFooter.js.js";
 
-import { bugs, website, server } from "variables/general.js";
-
-import {
-  dailySalesChart,
-  emailsSubscriptionChart,
-  completedTasksChart,
-} from "variables/charts.js";
+// import {
+//   dailySalesChart,
+//   emailsSubscriptionChart,
+//   completedTasksChart,
+// } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import { getCriptocoin, getStock } from "store/actions/dashboard.actions";
+import {
+  getCriptocoin,
+  getStock,
+} from "views/InvestCripto/node_modules/store/actions/dashboard.actions";
+import { getInvestedAssets } from "views/InvestCripto/node_modules/store/actions/dashboard.actions";
 
 const useStyles = makeStyles(styles);
 
@@ -42,13 +39,33 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const isLoading = useSelector((state) => state.dashboard.isLoading);
-  const errorMessage = useSelector((state) => state.dashboard.errorMessage);
+  // const isLoading = useSelector((state) => state.dashboard.isLoading);
+  // const errorMessage = useSelector((state) => state.dashboard.errorMessage);
+  const assets = useSelector((state) => state.dashboard.assets);
   const stocks = useSelector((state) => state.dashboard.stocks);
   const cripto = useSelector((state) => state.dashboard.criptocoins);
 
+  let criptoQtt = 0;
+  let stocksQtt = 0;
+  let criptoTotal = 0;
+  let stocksTotal = 0;
+  let assetsTotal = 0;
+  if (assets) {
+    for (let i = 0; i < assets.length; i++) {
+      if ((assets[i].type = "cripto")) {
+        criptoQtt++;
+        criptoTotal += assets[i].value;
+      } else if ((assets[i].type = "stock")) {
+        stocksQtt++;
+        stocksTotal += assets[i].value;
+      }
+    }
+
+    assetsTotal = criptoTotal + stocksTotal;
+  }
+
   useEffect(() => {
-    console.log("Fetching Assets...");
+    dispatch(getInvestedAssets());
     dispatch(getCriptocoin("btc"));
     dispatch(getCriptocoin("eth"));
     dispatch(getCriptocoin("bch"));
@@ -61,7 +78,9 @@ export default function Dashboard() {
     dispatch(getStock("sbux"));
   }, [dispatch]);
 
-  // console.log(stocks);
+  // console.log(assets);
+  console.log(stocks);
+  console.log(Object.getOwnPropertyNames(stocks));
   // console.log(cripto);
 
   return (
@@ -74,7 +93,9 @@ export default function Dashboard() {
                 <Icon>content_copy</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Investimentos</p>
-              <h3 className={classes.cardTitle}>1/3</h3>
+              <h3
+                className={classes.cardTitle}
+              >{`${criptoQtt}/${stocksQtt}`}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>Criptomoedas/Ações</div>
@@ -88,7 +109,9 @@ export default function Dashboard() {
                 <Store />
               </CardIcon>
               <p className={classes.cardCategory}>Total em Ativos</p>
-              <h3 className={classes.cardTitle}>U$34,245</h3>
+              <h3 className={classes.cardTitle}>
+                U${`${assetsTotal.toFixed(2)}`}
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>Criptomoedas + Ações</div>
@@ -102,7 +125,9 @@ export default function Dashboard() {
                 <Icon>info_outline</Icon>
               </CardIcon>
               <p className={classes.cardCategory}>Total em Criptomoedas</p>
-              <h3 className={classes.cardTitle}>U$24,00</h3>
+              <h3 className={classes.cardTitle}>
+                U${`${criptoTotal.toFixed(2)}`}
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>Investimentos em criptomedas</div>
@@ -116,7 +141,9 @@ export default function Dashboard() {
                 <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Total em Ações</p>
-              <h3 className={classes.cardTitle}>U$245,00</h3>
+              <h3 className={classes.cardTitle}>
+                U${`${stocksTotal.toFixed(2)}`}
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>Investimentos em ações</div>
@@ -124,7 +151,7 @@ export default function Dashboard() {
           </Card>
         </GridItem>
       </GridContainer>
-      <GridContainer>
+      {/* <GridContainer>
         <GridItem xs={12} sm={12} md={4}>
           <Card chart>
             <CardHeader color="success">
@@ -197,9 +224,9 @@ export default function Dashboard() {
             </CardFooter>
           </Card>
         </GridItem>
-      </GridContainer>
+      </GridContainer> */}
       <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
+        {/* <GridItem xs={12} sm={12} md={6}>
           <CustomTabs
             title="Tasks:"
             headerColor="primary"
@@ -239,25 +266,47 @@ export default function Dashboard() {
               },
             ]}
           />
-        </GridItem>
+        </GridItem> */}
         <GridItem xs={12} sm={12} md={6}>
           <Card>
-            <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
+            <CardHeader color="primary">
+              <h4 className={classes.cardTitleWhite}>Criptomoedas Recentes</h4>
               <p className={classes.cardCategoryWhite}>
-                New employees on 15th September, 2016
+                Últimos preços encontrados
               </p>
             </CardHeader>
             <CardBody>
               <Table
                 tableHeaderColor="warning"
-                tableHead={["ID", "Name", "Salary", "Country"]}
-                tableData={[
-                  ["1", "Dakota Rice", "$36,738", "Niger"],
-                  ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                  ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                  ["4", "Philip Chaney", "$38,735", "Korea, South"],
-                ]}
+                tableHead={["Moeda", "Nome", "Valor"]}
+                tableData={Object.keys(cripto).map((c) => {
+                  const coin = cripto[c];
+                  return [
+                    coin.code,
+                    coin.name,
+                    `U$${parseFloat(coin.value).toFixed(2)}`,
+                  ];
+                })}
+              />
+            </CardBody>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <Card>
+            <CardHeader color="warning">
+              <h4 className={classes.cardTitleWhite}>Ações Recentes</h4>
+              <p className={classes.cardCategoryWhite}>
+                Últimos preços encontrados
+              </p>
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="warning"
+                tableHead={["Ação", "Valor"]}
+                tableData={Object.getOwnPropertyNames(stocks).map((s) => {
+                  const stock = stocks[s];
+                  return [stock.symbol, parseFloat(stock.value).toFixed(2)];
+                })}
               />
             </CardBody>
           </Card>
