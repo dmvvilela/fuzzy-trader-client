@@ -75,7 +75,7 @@ export default function Sidebar(props) {
   );
   var brand = (
     <div className={classes.logo}>
-      <Link href="/">
+      <Link to="/">
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" style={{ width: 210 }} />
         </div>

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -38,11 +39,36 @@ import {
 } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import { getCriptocoin, getStock } from "store/actions/dashboard.actions";
 
 const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
+  const dispatch = useDispatch();
   const classes = useStyles();
+
+  const isLoading = useSelector((state) => state.dashboard.isLoading);
+  const errorMessage = useSelector((state) => state.dashboard.errorMessage);
+  const stocks = useSelector((state) => state.dashboard.stocks);
+  const cripto = useSelector((state) => state.dashboard.cripto);
+
+  useEffect(() => {
+    console.log("Fetching Assets...");
+    dispatch(getCriptocoin("btc"));
+    dispatch(getCriptocoin("eth"));
+    dispatch(getCriptocoin("bch"));
+    dispatch(getCriptocoin("xmr"));
+    dispatch(getCriptocoin("doge"));
+    dispatch(getStock("msft"));
+    dispatch(getStock("ibm"));
+    dispatch(getStock("goog"));
+    dispatch(getStock("nke"));
+    dispatch(getStock("sbux"));
+  }, [dispatch]);
+
+  console.log(stocks);
+  console.log(cripto);
+
   return (
     <div>
       <GridContainer>
