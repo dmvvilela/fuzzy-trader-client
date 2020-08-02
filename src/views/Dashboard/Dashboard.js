@@ -11,14 +11,14 @@ import Store from "@material-ui/icons/Store";
 // import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
 // core components
-import GridItem from "views/InvestCripto/node_modules/components/Grid/GridItem.js.js";
-import GridContainer from "views/InvestCripto/node_modules/components/Grid/GridContainer.js.js";
-import Table from "views/InvestCripto/node_modules/components/Table/Table.js.js";
-import Card from "views/InvestCripto/node_modules/components/Card/Card.js.js";
-import CardHeader from "views/InvestCripto/node_modules/components/Card/CardHeader.js.js";
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
+import Table from "components/Table/Table.js";
+import Card from "components/Card/Card.js";
+import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
-import CardBody from "views/InvestCripto/node_modules/components/Card/CardBody.js.js";
-import CardFooter from "views/InvestCripto/node_modules/components/Card/CardFooter.js.js";
+import CardBody from "components/Card/CardBody.js";
+import CardFooter from "components/Card/CardFooter.js";
 
 // import {
 //   dailySalesChart,
@@ -27,11 +27,8 @@ import CardFooter from "views/InvestCripto/node_modules/components/Card/CardFoot
 // } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import {
-  getCriptocoin,
-  getStock,
-} from "views/InvestCripto/node_modules/store/actions/dashboard.actions";
-import { getInvestedAssets } from "views/InvestCripto/node_modules/store/actions/dashboard.actions";
+import { getCriptocoin, getStock } from "store/actions/dashboard.actions";
+import { getInvestedAssets } from "store/actions/dashboard.actions";
 
 const useStyles = makeStyles(styles);
 
