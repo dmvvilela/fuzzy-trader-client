@@ -57,7 +57,8 @@ export default function UserProfile() {
 
   useEffect(() => {
     fetchAllCriptocoins();
-  }, [fetchAllCriptocoins]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
@@ -86,7 +87,7 @@ export default function UserProfile() {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Moeda"
-                    id="email-address"
+                    id="coin"
                     formControlProps={{
                       fullWidth: true,
                     }}

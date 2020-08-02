@@ -50,9 +50,7 @@ const dashboardReducer = (state = initialState, action) => {
 
     case GET_CRIPTOCOIN_SUCCESS:
       const { code } = action.object;
-
-      const { criptocoins } = state;
-      criptocoins[code] = action.object;
+      const criptocoins = { ...state.criptocoins, [code]: action.object };
 
       return {
         ...state,
@@ -77,9 +75,7 @@ const dashboardReducer = (state = initialState, action) => {
 
     case GET_STOCK_SUCCESS:
       const { symbol } = action.object;
-
-      const { stocks } = state;
-      stocks[symbol] = action.object;
+      const stocks = { ...state.stocks, [symbol]: action.object };
 
       return {
         ...state,
@@ -95,6 +91,7 @@ const dashboardReducer = (state = initialState, action) => {
         errorMessage:
           "Ocorreu um erro ao carregar as ações (mostrando resultados em cache).",
       };
+
     default:
       return state;
   }

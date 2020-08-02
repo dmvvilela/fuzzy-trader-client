@@ -3,6 +3,7 @@
  * *********   api actions DASHBOARD  *********
  */
 
+export const RESET_DB = "RESET_DB";
 export const GET_INVESTED_ASSETS = "GET_INVESTED_ASSETS";
 export const GET_INVESTED_ASSETS_SUCCESS = "GET_INVESTED_ASSETS_SUCCESS";
 export const GET_INVESTED_ASSETS_ERROR = "GET_INVESTED_ASSETS_ERROR";

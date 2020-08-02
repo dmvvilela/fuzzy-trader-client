@@ -8,11 +8,29 @@ import {
   GET_STOCK,
   GET_STOCK_SUCCESS,
   GET_STOCK_ERROR,
+  RESET_DB,
 } from "./actionTypes";
 import { fetchCriptocoin } from "../../services/cripto.service";
 import { fetchStock } from "../../services/stocks.service";
 
 import axios from "axios";
+
+export const resetDB = () => async (dispatch) => {
+  console.log("to aqui");
+
+  dispatch({
+    type: RESET_DB,
+  });
+
+  try {
+    const resp = await axios.post(
+      process.env.REACT_APP_API_URL + "/assets/reset"
+    );
+    console.log(resp.data);
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 export const getInvestedAssetsSuccess = (assets) => ({
   type: GET_INVESTED_ASSETS_SUCCESS,

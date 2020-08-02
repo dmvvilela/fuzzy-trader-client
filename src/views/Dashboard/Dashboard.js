@@ -27,8 +27,11 @@ import CardFooter from "components/Card/CardFooter.js";
 // } from "variables/charts.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
-import { getCriptocoin, getStock } from "store/actions/dashboard.actions";
-import { getInvestedAssets } from "store/actions/dashboard.actions";
+import {
+  getCriptocoin,
+  getStock,
+  getInvestedAssets,
+} from "store/actions/dashboard.actions";
 
 const useStyles = makeStyles(styles);
 
@@ -76,8 +79,7 @@ export default function Dashboard() {
   }, [dispatch]);
 
   // console.log(assets);
-  console.log(stocks);
-  console.log(Object.getOwnPropertyNames(stocks));
+  // console.log(stocks);
   // console.log(cripto);
 
   return (
@@ -300,7 +302,7 @@ export default function Dashboard() {
               <Table
                 tableHeaderColor="warning"
                 tableHead={["Ação", "Valor"]}
-                tableData={Object.getOwnPropertyNames(stocks).map((s) => {
+                tableData={Object.keys(stocks).map((s) => {
                   const stock = stocks[s];
                   return [stock.symbol, parseFloat(stock.value).toFixed(2)];
                 })}

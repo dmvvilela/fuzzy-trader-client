@@ -57,7 +57,8 @@ export default function InvestStocks() {
 
   useEffect(() => {
     fetchAllStocks();
-  }, [fetchAllStocks]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
@@ -115,9 +116,12 @@ export default function InvestStocks() {
               <Table
                 tableHeaderColor="warning"
                 tableHead={["Ação", "Valor"]}
-                tableData={Object.getOwnPropertyNames(stocks).map((s) => {
+                tableData={Object.keys(stocks).map((s) => {
                   const stock = stocks[s];
-                  return [stock.symbol, parseFloat(stock.value).toFixed(2)];
+                  return [
+                    stock.symbol,
+                    `U$${parseFloat(stock.value).toFixed(2)}`,
+                  ];
                 })}
               />
               <Button

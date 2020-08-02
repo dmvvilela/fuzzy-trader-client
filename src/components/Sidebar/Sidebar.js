@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import React from "react";
+import { useDispatch } from "react-redux";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
@@ -17,10 +18,19 @@ import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 
+import { getInvestedAssets, resetDB } from "store/actions/dashboard.actions";
+
 const useStyles = makeStyles(styles);
 
 export default function Sidebar(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  function onResetDB() {
+    dispatch(resetDB());
+    setTimeout(() => dispatch(getInvestedAssets()), 500);
+  }
+
   // verifies if routeName is the one active (in browser input)
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
@@ -72,7 +82,7 @@ export default function Sidebar(props) {
           </NavLink>
         );
       })}
-      <Button color="primary" style={{ margin: 32 }}>
+      <Button color="primary" style={{ margin: 32 }} onClick={onResetDB}>
         Reset DB
       </Button>
     </List>
