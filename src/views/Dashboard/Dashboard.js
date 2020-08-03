@@ -119,7 +119,7 @@ export default function Dashboard() {
               </h3>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats}>Quantidade de criptomedas</div>
+              <div className={classes.stats}>Investimentos em criptomedas</div>
             </CardFooter>
           </Card>
         </GridItem>
@@ -135,7 +135,7 @@ export default function Dashboard() {
               </h3>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats}>Valor em ações</div>
+              <div className={classes.stats}>Investimentos em ações</div>
             </CardFooter>
           </Card>
         </GridItem>
