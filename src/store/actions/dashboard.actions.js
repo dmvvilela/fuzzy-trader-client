@@ -102,10 +102,11 @@ export const getStockError = (status, error) => ({
   error,
 });
 
-export const getStock = (stock) => async (dispatch) => {
+export const getStock = (stock, name) => async (dispatch) => {
   dispatch({
     type: GET_STOCK,
     stock,
+    name,
   });
 
   try {
@@ -117,7 +118,7 @@ export const getStock = (stock) => async (dispatch) => {
     const value = resp.data.data[0]["open"];
     // console.log(value);
 
-    dispatch(getStockSuccess({ symbol, value }));
+    dispatch(getStockSuccess({ symbol, value, name }));
   } catch (err) {
     dispatch(getStockError(err));
   }

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// import InputLabel from "@material-ui/core/InputLabel";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -10,12 +9,9 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-// import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Table from "components/Table/Table.js";
-
-// import avatar from "assets/img/faces/marc.jpg";
 
 import {
   getCriptocoin,
@@ -57,7 +53,7 @@ export default function UserProfile() {
   const assets = useSelector((state) => state.dashboard.assets);
 
   const [localError, setLocalError] = useState("");
-  const [amount, setAmount] = useState("");
+  const [quantity, setQuantity] = useState("");
   const [coin, setCoin] = useState("");
 
   function fetchAllCriptocoins() {
@@ -74,14 +70,14 @@ export default function UserProfile() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function onChangeAmount(value) {
-    if (isNaN(parseFloat(value))) {
+  function onChangeQuantity(value) {
+    if (value !== "" && isNaN(parseFloat(value))) {
       setLocalError("Valor inválido.");
       return;
     }
 
     setLocalError("");
-    setAmount(value.replace(",", "."));
+    setQuantity(value.replace(",", "."));
   }
 
   function onChangeCoin(value) {
@@ -109,16 +105,17 @@ export default function UserProfile() {
       }
     }
 
-    const value = parseFloat(amount) / cripto[code].value;
-    if (!value) {
-      setLocalError("Quantidade selecionada inválida.");
+    const value = parseFloat(quantity);
+    const amount = value / cripto[code].value;
+    if (!amount) {
+      setLocalError("Valor selecionado inválido.");
       return;
     }
 
     const type = "cripto";
     const name = cripto[code].name;
-    if (update) dispatch(updateAsset({ value, name, code, type }, id));
-    else dispatch(setAsset({ value, name, code, type }));
+    if (update) dispatch(updateAsset({ value, amount, name, code, type }, id));
+    else dispatch(setAsset({ value, amount, name, code, type }));
   }
 
   return (
@@ -139,8 +136,8 @@ export default function UserProfile() {
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Valor a ser investido (U$)"
-                    value={amount}
-                    onChange={(e) => onChangeAmount(e.target.value)}
+                    value={quantity}
+                    onChange={(e) => onChangeQuantity(e.target.value)}
                     id="value"
                     formControlProps={{
                       fullWidth: true,
@@ -149,7 +146,7 @@ export default function UserProfile() {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Moeda (e.g. btc)"
+                    labelText="Moeda (e.g. BTC)"
                     value={coin}
                     onChange={(e) => onChangeCoin(e.target.value)}
                     id="coin"
@@ -165,10 +162,10 @@ export default function UserProfile() {
                     Quantidade em Criptomoeda:{" "}
                     <span style={{ fontWeight: "bold" }}>
                       {coin}
-                      {(amount &&
+                      {(quantity &&
                         cripto[coin] &&
                         (
-                          parseFloat(amount) / parseFloat(cripto[coin].value)
+                          parseFloat(quantity) / parseFloat(cripto[coin].value)
                         ).toFixed(2)) ||
                         "0.00"}
                     </span>

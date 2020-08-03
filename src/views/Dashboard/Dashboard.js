@@ -18,8 +18,8 @@ import CardFooter from "components/Card/CardFooter.js";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import {
-  // getCriptocoin,
-  // getStock,
+  getCriptocoin,
+  getStock,
   getInvestedAssets,
 } from "store/actions/dashboard.actions";
 
@@ -32,8 +32,8 @@ export default function Dashboard() {
   // const isLoading = useSelector((state) => state.dashboard.isLoading);
   // const errorMessage = useSelector((state) => state.dashboard.errorMessage);
   const assets = useSelector((state) => state.dashboard.assets);
-  // const stocks = useSelector((state) => state.dashboard.stocks);
-  // const cripto = useSelector((state) => state.dashboard.criptocoins);
+  const stocks = useSelector((state) => state.dashboard.stocks);
+  const cripto = useSelector((state) => state.dashboard.criptocoins);
 
   let criptoQtt = 0;
   let stocksQtt = 0;
@@ -56,16 +56,16 @@ export default function Dashboard() {
 
   useEffect(() => {
     dispatch(getInvestedAssets());
-    // dispatch(getCriptocoin("btc"));
-    // dispatch(getCriptocoin("eth"));
-    // dispatch(getCriptocoin("bch"));
-    // dispatch(getCriptocoin("xmr"));
-    // dispatch(getCriptocoin("ltc"));
-    // dispatch(getStock("msft"));
-    // dispatch(getStock("ibm"));
-    // dispatch(getStock("goog"));
-    // dispatch(getStock("nke"));
-    // dispatch(getStock("sbux"));
+    dispatch(getCriptocoin("btc"));
+    dispatch(getCriptocoin("eth"));
+    dispatch(getCriptocoin("bch"));
+    dispatch(getCriptocoin("xmr"));
+    dispatch(getCriptocoin("ltc"));
+    dispatch(getStock("msft", "Microsoft"));
+    dispatch(getStock("ibm", "IBM"));
+    dispatch(getStock("goog", "Google"));
+    dispatch(getStock("nke", "Nike"));
+    dispatch(getStock("sbux", "Starbucks"));
   }, [dispatch]);
 
   // console.log(assets);
@@ -115,7 +115,7 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Total em Criptomoedas</p>
               <h3 className={classes.cardTitle}>
-                {`${criptoTotal.toFixed(2)}`}
+                {`U$${criptoTotal.toFixed(2)}`}
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -152,14 +152,24 @@ export default function Dashboard() {
             <CardBody>
               <Table
                 tableHeaderColor="warning"
-                tableHead={["Moeda", "Nome", "Quantidade"]}
+                tableHead={[
+                  "Moeda",
+                  "Nome",
+                  "Quantidade",
+                  "Valor investido",
+                  "Valor atual",
+                ]}
                 tableData={assets
                   .filter((asset) => asset.type === "cripto")
                   .map((asset) => {
                     return [
                       asset.code,
                       asset.name,
-                      `${parseFloat(asset.value).toFixed(2)}`,
+                      `${parseFloat(asset.amount).toFixed(2)}`,
+                      `U$${parseFloat(asset.value).toFixed(2)}`,
+                      cripto[asset.code]
+                        ? `U$${parseFloat(cripto[asset.code].value).toFixed(2)}`
+                        : "-",
                     ];
                   })}
               />
@@ -177,13 +187,24 @@ export default function Dashboard() {
             <CardBody>
               <Table
                 tableHeaderColor="warning"
-                tableHead={["Ação", "Valor"]}
+                tableHead={[
+                  "Ação",
+                  "Nome",
+                  "Quantidade",
+                  "Valor investido",
+                  "Valor atual",
+                ]}
                 tableData={assets
                   .filter((asset) => asset.type === "stock")
                   .map((asset) => {
                     return [
                       asset.code,
+                      asset.name,
+                      `${parseFloat(asset.amount).toFixed(2)}`,
                       `U$${parseFloat(asset.value).toFixed(2)}`,
+                      stocks[asset.code]
+                        ? `U$${parseFloat(stocks[asset.code].value).toFixed(2)}`
+                        : "-",
                     ];
                   })}
               />

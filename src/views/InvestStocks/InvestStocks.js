@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// import InputLabel from "@material-ui/core/InputLabel";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
@@ -10,7 +9,6 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-// import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Table from "components/Table/Table.js";
@@ -58,11 +56,11 @@ export default function InvestStocks() {
   const assets = useSelector((state) => state.dashboard.assets);
 
   function fetchAllStocks() {
-    dispatch(getStock("msft"));
-    dispatch(getStock("ibm"));
-    dispatch(getStock("goog"));
-    dispatch(getStock("nke"));
-    dispatch(getStock("sbux"));
+    dispatch(getStock("msft", "Microsoft"));
+    dispatch(getStock("ibm", "IBM"));
+    dispatch(getStock("goog", "Google"));
+    dispatch(getStock("nke", "Nike"));
+    dispatch(getStock("sbux", "Starbucks"));
   }
 
   useEffect(() => {
@@ -72,7 +70,7 @@ export default function InvestStocks() {
   }, []);
 
   function onChangeQuantity(value) {
-    if (isNaN(parseFloat(value))) {
+    if (value !== "" && isNaN(parseFloat(value))) {
       setLocalError("Quantidade inválida.");
       return;
     }
@@ -106,15 +104,17 @@ export default function InvestStocks() {
       }
     }
 
-    const value = stocks[code].value * parseInt(quantity);
+    const amount = parseFloat(quantity);
+    const value = stocks[code].value * amount;
     if (!value) {
       setLocalError("Quantidade selecionada inválida.");
       return;
     }
 
     const type = "stock";
-    if (update) dispatch(updateAsset({ value, code, type }, id));
-    else dispatch(setAsset({ value, code, type }));
+    const name = stocks[code].name;
+    if (update) dispatch(updateAsset({ value, name, amount, code, type }, id));
+    else dispatch(setAsset({ value, name, amount, code, type }));
   }
 
   return (
@@ -143,7 +143,7 @@ export default function InvestStocks() {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Ação (e.g. goog)"
+                    labelText="Ação (e.g. GOOG)"
                     value={stock}
                     onChange={(e) => onChangeStock(e.target.value)}
                     id="stock"
@@ -162,7 +162,7 @@ export default function InvestStocks() {
                       {(quantity &&
                         stocks[stock] &&
                         (
-                          parseInt(quantity) * parseFloat(stocks[stock].value)
+                          parseFloat(quantity) * parseFloat(stocks[stock].value)
                         ).toFixed(2)) ||
                         "0.00"}
                     </span>
@@ -188,11 +188,12 @@ export default function InvestStocks() {
               <p style={{ color: "red" }}>{fetchErrorMessage}</p>
               <Table
                 tableHeaderColor="warning"
-                tableHead={["Ação", "Valor"]}
+                tableHead={["Ação", "Nome", "Valor"]}
                 tableData={Object.keys(stocks).map((s) => {
                   const stock = stocks[s];
                   return [
                     stock.symbol,
+                    stock.name,
                     `U$${parseFloat(stock.value).toFixed(2)}`,
                   ];
                 })}
