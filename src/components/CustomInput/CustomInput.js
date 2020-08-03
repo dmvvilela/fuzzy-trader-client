@@ -20,23 +20,25 @@ export default function CustomInput(props) {
     formControlProps,
     labelText,
     id,
+    value,
+    onChange,
     labelProps,
     inputProps,
     error,
-    success
+    success,
   } = props;
 
   const labelClasses = classNames({
     [" " + classes.labelRootError]: error,
-    [" " + classes.labelRootSuccess]: success && !error
+    [" " + classes.labelRootSuccess]: success && !error,
   });
   const underlineClasses = classNames({
     [classes.underlineError]: error,
     [classes.underlineSuccess]: success && !error,
-    [classes.underline]: true
+    [classes.underline]: true,
   });
   const marginTop = classNames({
-    [classes.marginTop]: labelText === undefined
+    [classes.marginTop]: labelText === undefined,
   });
   return (
     <FormControl
@@ -56,8 +58,10 @@ export default function CustomInput(props) {
         classes={{
           root: marginTop,
           disabled: classes.disabled,
-          underline: underlineClasses
+          underline: underlineClasses,
         }}
+        value={value}
+        onChange={onChange}
         id={id}
         {...inputProps}
       />
@@ -74,8 +78,10 @@ CustomInput.propTypes = {
   labelText: PropTypes.node,
   labelProps: PropTypes.object,
   id: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
   inputProps: PropTypes.object,
   formControlProps: PropTypes.object,
   error: PropTypes.bool,
-  success: PropTypes.bool
+  success: PropTypes.bool,
 };

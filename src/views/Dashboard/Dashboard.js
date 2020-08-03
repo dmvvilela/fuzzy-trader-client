@@ -115,11 +115,11 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Total em Criptomoedas</p>
               <h3 className={classes.cardTitle}>
-                U${`${criptoTotal.toFixed(2)}`}
+                {`${criptoTotal.toFixed(2)}`}
               </h3>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats}>Investimentos em criptomedas</div>
+              <div className={classes.stats}>Quantidade de criptomedas</div>
             </CardFooter>
           </Card>
         </GridItem>
@@ -135,7 +135,7 @@ export default function Dashboard() {
               </h3>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats}>Investimentos em ações</div>
+              <div className={classes.stats}>Valor em ações</div>
             </CardFooter>
           </Card>
         </GridItem>
@@ -152,14 +152,14 @@ export default function Dashboard() {
             <CardBody>
               <Table
                 tableHeaderColor="warning"
-                tableHead={["Moeda", "Nome", "Valor"]}
+                tableHead={["Moeda", "Nome", "Quantidade"]}
                 tableData={assets
                   .filter((asset) => asset.type === "cripto")
                   .map((asset) => {
                     return [
                       asset.code,
                       asset.name,
-                      `U$${parseFloat(asset.value).toFixed(2)}`,
+                      `${parseFloat(asset.value).toFixed(2)}`,
                     ];
                   })}
               />

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,7 +17,8 @@ import Table from "components/Table/Table.js";
 
 // import avatar from "assets/img/faces/marc.jpg";
 
-import { getStock } from "store/actions/dashboard.actions";
+import { getStock, getInvestedAssets } from "store/actions/dashboard.actions";
+import { setAsset, updateAsset } from "store/actions/invest.actions";
 
 const styles = {
   cardCategoryWhite: {
@@ -44,12 +45,17 @@ export default function InvestStocks() {
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  const [localError, setLocalError] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [stock, setStock] = useState("");
+
   const fetchErrorMessage = useSelector(
     (state) => state.dashboard.errorMessage
   );
   const errorMessage = useSelector((state) => state.invest.errorMessage);
   const successMessage = useSelector((state) => state.invest.successMessage);
   const stocks = useSelector((state) => state.dashboard.stocks);
+  const assets = useSelector((state) => state.dashboard.assets);
 
   function fetchAllStocks() {
     dispatch(getStock("msft"));
@@ -61,8 +67,55 @@ export default function InvestStocks() {
 
   useEffect(() => {
     fetchAllStocks();
+    dispatch(getInvestedAssets()); // Apenas caso inicie nessa página.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function onChangeQuantity(value) {
+    if (isNaN(parseFloat(value))) {
+      setLocalError("Quantidade inválida.");
+      return;
+    }
+
+    setLocalError("");
+    setQuantity(value.replace(",", "."));
+  }
+
+  function onChangeStock(value) {
+    setLocalError("");
+    setStock(value.toUpperCase());
+  }
+
+  function onInvest() {
+    const code = stock.toUpperCase();
+
+    // Verifica se a ação existe na lista.
+    if (!(code in stocks)) {
+      setLocalError("Ação selecionada indisponível.");
+      return;
+    }
+
+    // Verifica se é nova ou update.
+    let update = false;
+    let id;
+    for (let i = 0; i < assets.length; i++) {
+      if (assets[i].type === "stock" && assets[i].code === code) {
+        update = true;
+        id = assets[i]._id;
+        break;
+      }
+    }
+
+    const value = stocks[code].value * parseInt(quantity);
+    if (!value) {
+      setLocalError("Quantidade selecionada inválida.");
+      return;
+    }
+
+    const type = "stock";
+    if (update) dispatch(updateAsset({ value, code, type }, id));
+    else dispatch(setAsset({ value, code, type }));
+  }
 
   return (
     <div>
@@ -80,6 +133,8 @@ export default function InvestStocks() {
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Quantidade de ações"
+                    value={quantity}
+                    onChange={(e) => onChangeQuantity(e.target.value)}
                     id="quantity"
                     formControlProps={{
                       fullWidth: true,
@@ -89,6 +144,8 @@ export default function InvestStocks() {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Ação (e.g. goog)"
+                    value={stock}
+                    onChange={(e) => onChangeStock(e.target.value)}
                     id="stock"
                     formControlProps={{
                       fullWidth: true,
@@ -99,15 +156,27 @@ export default function InvestStocks() {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <h4 className={classes.cardTitle}>
-                    Valor total investido: U$0.00
+                    Total a ser investido:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      U$
+                      {(quantity &&
+                        stocks[stock] &&
+                        (
+                          parseInt(quantity) * parseFloat(stocks[stock].value)
+                        ).toFixed(2)) ||
+                        "0.00"}
+                    </span>
                   </h4>
                   <p style={{ color: "green" }}>{successMessage}</p>
                   <p style={{ color: "red" }}>{errorMessage}</p>
+                  <p style={{ color: "red" }}>{localError}</p>
                 </GridItem>
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">Investir</Button>
+              <Button color="primary" onClick={onInvest}>
+                Investir
+              </Button>
             </CardFooter>
           </Card>
         </GridItem>

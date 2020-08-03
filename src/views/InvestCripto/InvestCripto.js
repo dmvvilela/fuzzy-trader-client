@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,7 +17,11 @@ import Table from "components/Table/Table.js";
 
 // import avatar from "assets/img/faces/marc.jpg";
 
-import { getCriptocoin } from "store/actions/dashboard.actions";
+import {
+  getCriptocoin,
+  getInvestedAssets,
+} from "store/actions/dashboard.actions";
+import { setAsset, updateAsset } from "store/actions/invest.actions";
 
 const styles = {
   cardCategoryWhite: {
@@ -50,6 +54,11 @@ export default function UserProfile() {
   const errorMessage = useSelector((state) => state.invest.errorMessage);
   const successMessage = useSelector((state) => state.invest.successMessage);
   const cripto = useSelector((state) => state.dashboard.criptocoins);
+  const assets = useSelector((state) => state.dashboard.assets);
+
+  const [localError, setLocalError] = useState("");
+  const [amount, setAmount] = useState("");
+  const [coin, setCoin] = useState("");
 
   function fetchAllCriptocoins() {
     dispatch(getCriptocoin("btc"));
@@ -61,8 +70,56 @@ export default function UserProfile() {
 
   useEffect(() => {
     fetchAllCriptocoins();
+    dispatch(getInvestedAssets()); // Apenas caso inicie nessa página.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function onChangeAmount(value) {
+    if (isNaN(parseFloat(value))) {
+      setLocalError("Valor inválido.");
+      return;
+    }
+
+    setLocalError("");
+    setAmount(value.replace(",", "."));
+  }
+
+  function onChangeCoin(value) {
+    setLocalError("");
+    setCoin(value.toUpperCase());
+  }
+
+  function onInvest() {
+    const code = coin.toUpperCase();
+
+    // Verifica se a ação existe na lista.
+    if (!(code in cripto)) {
+      setLocalError("Moeda selecionada indisponível.");
+      return;
+    }
+
+    // Verifica se é nova ou update.
+    let update = false;
+    let id;
+    for (let i = 0; i < assets.length; i++) {
+      if (assets[i].type === "cripto" && assets[i].code === code) {
+        update = true;
+        id = assets[i]._id;
+        break;
+      }
+    }
+
+    const value = parseFloat(amount) / cripto[code].value;
+    if (!value) {
+      setLocalError("Quantidade selecionada inválida.");
+      return;
+    }
+
+    const type = "cripto";
+    const name = cripto[code].name;
+    if (update) dispatch(updateAsset({ value, name, code, type }, id));
+    else dispatch(setAsset({ value, name, code, type }));
+  }
 
   return (
     <div>
@@ -82,6 +139,8 @@ export default function UserProfile() {
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Valor a ser investido (U$)"
+                    value={amount}
+                    onChange={(e) => onChangeAmount(e.target.value)}
                     id="value"
                     formControlProps={{
                       fullWidth: true,
@@ -91,6 +150,8 @@ export default function UserProfile() {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Moeda (e.g. btc)"
+                    value={coin}
+                    onChange={(e) => onChangeCoin(e.target.value)}
                     id="coin"
                     formControlProps={{
                       fullWidth: true,
@@ -101,15 +162,27 @@ export default function UserProfile() {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <h4 className={classes.cardTitle}>
-                    Quantidade em Criptomoeda: U$0.00
+                    Quantidade em Criptomoeda:{" "}
+                    <span style={{ fontWeight: "bold" }}>
+                      {coin}
+                      {(amount &&
+                        cripto[coin] &&
+                        (
+                          parseFloat(amount) / parseFloat(cripto[coin].value)
+                        ).toFixed(2)) ||
+                        "0.00"}
+                    </span>
                   </h4>
                   <p style={{ color: "green" }}>{successMessage}</p>
                   <p style={{ color: "red" }}>{errorMessage}</p>
+                  <p style={{ color: "red" }}>{localError}</p>
                 </GridItem>
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">Investir</Button>
+              <Button color="primary" onClick={onInvest}>
+                Investir
+              </Button>
             </CardFooter>
           </Card>
         </GridItem>
