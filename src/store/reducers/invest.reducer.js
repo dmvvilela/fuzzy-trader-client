@@ -1,35 +1,42 @@
 import {
-  SEARCH_MARVEL_CHARACTER,
-  SEARCH_MARVEL_CHARACTER_SUCCESS,
-  SEARCH_MARVEL_CHARACTER_ERROR,
+  SET_ASSET,
+  SET_ASSET_SUCCESS,
+  SET_ASSET_ERROR,
 } from "../actions/actionTypes";
 
 const initialState = {
   isLoading: false,
   errorMessage: "",
+  successMessage: "",
+  asset: null,
 };
 
 const investReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SEARCH_MARVEL_CHARACTER:
+    case SET_ASSET:
       return {
         ...state,
         isLoading: true,
+        errorMessage: "",
+        successMessage: "",
       };
 
-    case SEARCH_MARVEL_CHARACTER_SUCCESS:
+    case SET_ASSET_SUCCESS:
       return {
         ...state,
         isLoading: false,
         errorMessage: "",
-        marvelCharacters: action.character,
+        successMessage:
+          "Investimento realizado com sucesso! Verifique no painel seus ativos.",
+        asset: action.asset,
       };
 
-    case SEARCH_MARVEL_CHARACTER_ERROR:
+    case SET_ASSET_ERROR:
       return {
         ...state,
         isLoading: false,
-        errorMessage: action.error,
+        errorMessage: "Ocorreu um erro ao realizar seu investimento.",
+        successMessage: "",
       };
 
     default:

@@ -44,7 +44,11 @@ export default function InvestStocks() {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const errorMessage = useSelector((state) => state.dashboard.errorMessage);
+  const fetchErrorMessage = useSelector(
+    (state) => state.dashboard.errorMessage
+  );
+  const errorMessage = useSelector((state) => state.invest.errorMessage);
+  const successMessage = useSelector((state) => state.invest.successMessage);
   const stocks = useSelector((state) => state.dashboard.stocks);
 
   function fetchAllStocks() {
@@ -68,15 +72,15 @@ export default function InvestStocks() {
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Investir em Ações</h4>
               <p className={classes.cardCategoryWhite}>
-                Escolha o valor e indique a ação desejada
+                Escolha a quantidade e indique a ação desejada
               </p>
             </CardHeader>
             <CardBody>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="Valor a ser investido"
-                    id="value"
+                    labelText="Quantidade de ações"
+                    id="quantity"
                     formControlProps={{
                       fullWidth: true,
                     }}
@@ -84,7 +88,7 @@ export default function InvestStocks() {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Ação"
+                    labelText="Ação (e.g. goog)"
                     id="stock"
                     formControlProps={{
                       fullWidth: true,
@@ -94,11 +98,11 @@ export default function InvestStocks() {
               </GridContainer>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
-                  <h4 className={classes.cardTitle}>Quantidade de Ações: 0</h4>
-                  <p style={{ color: "green" }}>
-                    Investimento realizado com sucesso! Verifique no painel seus
-                    ativos.
-                  </p>
+                  <h4 className={classes.cardTitle}>
+                    Valor total investido: U$0.00
+                  </h4>
+                  <p style={{ color: "green" }}>{successMessage}</p>
+                  <p style={{ color: "red" }}>{errorMessage}</p>
                 </GridItem>
               </GridContainer>
             </CardBody>
@@ -111,8 +115,8 @@ export default function InvestStocks() {
           <Card profile>
             <CardBody profile>
               <h6 className={classes.cardCategory}>Ações Recentes</h6>
-              <h4 className={classes.cardTitle}>Últimos preços encontrados</h4>
-              <p style={{ color: "red" }}>{errorMessage}</p>
+              <h4 className={classes.cardTitle}>Últimos valores encontrados</h4>
+              <p style={{ color: "red" }}>{fetchErrorMessage}</p>
               <Table
                 tableHeaderColor="warning"
                 tableHead={["Ação", "Valor"]}

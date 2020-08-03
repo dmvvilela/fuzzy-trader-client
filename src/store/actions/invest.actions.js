@@ -1,33 +1,32 @@
-import {
-  SEARCH_MARVEL_CHARACTER,
-  SEARCH_MARVEL_CHARACTER_SUCCESS,
-  SEARCH_MARVEL_CHARACTER_ERROR,
-} from './actionTypes';
-import { searchCharacter } from '../../services/marvel.service';
+import { SET_ASSET, SET_ASSET_SUCCESS, SET_ASSET_ERROR } from "./actionTypes";
 
-export const searchMarvelCharacterSuccess = (character) => ({
-  type: SEARCH_MARVEL_CHARACTER_SUCCESS,
-  character,
+import axios from "axios";
+
+export const setAssetSuccess = (asset) => ({
+  type: SET_ASSET_SUCCESS,
+  asset,
 });
 
-export const searchMarvelCharacterError = (status, error) => ({
-  type: SEARCH_MARVEL_CHARACTER_ERROR,
+export const setAssetError = (status, error) => ({
+  type: SET_ASSET_ERROR,
   status,
   error,
 });
 
-export const searchMarvelCharacter = (query) => async (dispatch) => {
+export const setAsset = (asset) => async (dispatch) => {
   dispatch({
-    type: SEARCH_MARVEL_CHARACTER,
-    query,
+    type: SET_ASSET,
+    asset,
   });
 
   try {
-    const resp = await searchCharacter(query);
+    const resp = await axios.post(
+      process.env.REACT_APP_API_URL + "/assets/add"
+    );
 
-    dispatch(searchMarvelCharacterSuccess(resp));
+    dispatch(setAssetSuccess(resp));
   } catch (err) {
     console.log(err);
-    dispatch(searchMarvelCharacterError(err));
+    dispatch(setAssetError(err));
   }
 };

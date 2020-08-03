@@ -1,14 +1,10 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// react plugin for creating charts
-// import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
-// import ArrowUpward from "@material-ui/icons/ArrowUpward";
-// import AccessTime from "@material-ui/icons/AccessTime";
 import Accessibility from "@material-ui/icons/Accessibility";
 // core components
 import GridItem from "components/Grid/GridItem.js";
@@ -20,16 +16,10 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
-// import {
-//   dailySalesChart,
-//   emailsSubscriptionChart,
-//   completedTasksChart,
-// } from "variables/charts.js";
-
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 import {
-  getCriptocoin,
-  getStock,
+  // getCriptocoin,
+  // getStock,
   getInvestedAssets,
 } from "store/actions/dashboard.actions";
 
@@ -42,8 +32,8 @@ export default function Dashboard() {
   // const isLoading = useSelector((state) => state.dashboard.isLoading);
   // const errorMessage = useSelector((state) => state.dashboard.errorMessage);
   const assets = useSelector((state) => state.dashboard.assets);
-  const stocks = useSelector((state) => state.dashboard.stocks);
-  const cripto = useSelector((state) => state.dashboard.criptocoins);
+  // const stocks = useSelector((state) => state.dashboard.stocks);
+  // const cripto = useSelector((state) => state.dashboard.criptocoins);
 
   let criptoQtt = 0;
   let stocksQtt = 0;
@@ -52,10 +42,10 @@ export default function Dashboard() {
   let assetsTotal = 0;
   if (assets) {
     for (let i = 0; i < assets.length; i++) {
-      if ((assets[i].type = "cripto")) {
+      if (assets[i].type === "cripto") {
         criptoQtt++;
         criptoTotal += assets[i].value;
-      } else if ((assets[i].type = "stock")) {
+      } else if (assets[i].type === "stock") {
         stocksQtt++;
         stocksTotal += assets[i].value;
       }
@@ -66,16 +56,16 @@ export default function Dashboard() {
 
   useEffect(() => {
     dispatch(getInvestedAssets());
-    dispatch(getCriptocoin("btc"));
-    dispatch(getCriptocoin("eth"));
-    dispatch(getCriptocoin("bch"));
-    dispatch(getCriptocoin("xmr"));
-    dispatch(getCriptocoin("doge"));
-    dispatch(getStock("msft"));
-    dispatch(getStock("ibm"));
-    dispatch(getStock("goog"));
-    dispatch(getStock("nke"));
-    dispatch(getStock("sbux"));
+    // dispatch(getCriptocoin("btc"));
+    // dispatch(getCriptocoin("eth"));
+    // dispatch(getCriptocoin("bch"));
+    // dispatch(getCriptocoin("xmr"));
+    // dispatch(getCriptocoin("ltc"));
+    // dispatch(getStock("msft"));
+    // dispatch(getStock("ibm"));
+    // dispatch(getStock("goog"));
+    // dispatch(getStock("nke"));
+    // dispatch(getStock("sbux"));
   }, [dispatch]);
 
   // console.log(assets);
@@ -150,142 +140,28 @@ export default function Dashboard() {
           </Card>
         </GridItem>
       </GridContainer>
-      {/* <GridContainer>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="success">
-              <ChartistGraph
-                className="ct-chart"
-                data={dailySalesChart.data}
-                type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                </span>{" "}
-                increase in today sales.
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="warning">
-              <ChartistGraph
-                className="ct-chart"
-                data={emailsSubscriptionChart.data}
-                type="Bar"
-                options={emailsSubscriptionChart.options}
-                responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                listener={emailsSubscriptionChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="danger">
-              <ChartistGraph
-                className="ct-chart"
-                data={completedTasksChart.data}
-                type="Line"
-                options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer> */}
       <GridContainer>
-        {/* <GridItem xs={12} sm={12} md={6}>
-          <CustomTabs
-            title="Tasks:"
-            headerColor="primary"
-            tabs={[
-              {
-                tabName: "Bugs",
-                tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                  />
-                ),
-              },
-              {
-                tabName: "Website",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
-                ),
-              },
-              {
-                tabName: "Server",
-                tabIcon: Cloud,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={server}
-                  />
-                ),
-              },
-            ]}
-          />
-        </GridItem> */}
         <GridItem xs={12} sm={12} md={6}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Criptomoedas Recentes</h4>
+              <h4 className={classes.cardTitleWhite}>Ativos em Criptomoedas</h4>
               <p className={classes.cardCategoryWhite}>
-                Últimos preços encontrados
+                Sua carteira de investimentos em criptomoedas.
               </p>
             </CardHeader>
             <CardBody>
               <Table
                 tableHeaderColor="warning"
                 tableHead={["Moeda", "Nome", "Valor"]}
-                tableData={Object.keys(cripto).map((c) => {
-                  const coin = cripto[c];
-                  return [
-                    coin.code,
-                    coin.name,
-                    `U$${parseFloat(coin.value).toFixed(2)}`,
-                  ];
-                })}
+                tableData={assets
+                  .filter((asset) => asset.type === "cripto")
+                  .map((asset) => {
+                    return [
+                      asset.code,
+                      asset.name,
+                      `U$${parseFloat(asset.value).toFixed(2)}`,
+                    ];
+                  })}
               />
             </CardBody>
           </Card>
@@ -293,19 +169,23 @@ export default function Dashboard() {
         <GridItem xs={12} sm={12} md={6}>
           <Card>
             <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Ações Recentes</h4>
+              <h4 className={classes.cardTitleWhite}>Ativos em Ações</h4>
               <p className={classes.cardCategoryWhite}>
-                Últimos preços encontrados
+                Sua carteira de investimentos em ações.
               </p>
             </CardHeader>
             <CardBody>
               <Table
                 tableHeaderColor="warning"
                 tableHead={["Ação", "Valor"]}
-                tableData={Object.keys(stocks).map((s) => {
-                  const stock = stocks[s];
-                  return [stock.symbol, parseFloat(stock.value).toFixed(2)];
-                })}
+                tableData={assets
+                  .filter((asset) => asset.type === "stock")
+                  .map((asset) => {
+                    return [
+                      asset.code,
+                      `U$${parseFloat(asset.value).toFixed(2)}`,
+                    ];
+                  })}
               />
             </CardBody>
           </Card>

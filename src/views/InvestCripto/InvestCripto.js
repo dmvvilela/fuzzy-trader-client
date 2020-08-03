@@ -44,7 +44,11 @@ export default function UserProfile() {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const errorMessage = useSelector((state) => state.dashboard.errorMessage);
+  const fetchErrorMessage = useSelector(
+    (state) => state.dashboard.errorMessage
+  );
+  const errorMessage = useSelector((state) => state.invest.errorMessage);
+  const successMessage = useSelector((state) => state.invest.successMessage);
   const cripto = useSelector((state) => state.dashboard.criptocoins);
 
   function fetchAllCriptocoins() {
@@ -52,7 +56,7 @@ export default function UserProfile() {
     dispatch(getCriptocoin("eth"));
     dispatch(getCriptocoin("bch"));
     dispatch(getCriptocoin("xmr"));
-    dispatch(getCriptocoin("doge"));
+    dispatch(getCriptocoin("ltc"));
   }
 
   useEffect(() => {
@@ -77,7 +81,7 @@ export default function UserProfile() {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="Valor a ser investido"
+                    labelText="Valor a ser investido (U$)"
                     id="value"
                     formControlProps={{
                       fullWidth: true,
@@ -86,7 +90,7 @@ export default function UserProfile() {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Moeda"
+                    labelText="Moeda (e.g. btc)"
                     id="coin"
                     formControlProps={{
                       fullWidth: true,
@@ -97,12 +101,10 @@ export default function UserProfile() {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                   <h4 className={classes.cardTitle}>
-                    Quantidade em Criptomoeda: 0.00
+                    Quantidade em Criptomoeda: U$0.00
                   </h4>
-                  <p style={{ color: "green" }}>
-                    Investimento realizado com sucesso! Verifique no painel seus
-                    ativos.
-                  </p>
+                  <p style={{ color: "green" }}>{successMessage}</p>
+                  <p style={{ color: "red" }}>{errorMessage}</p>
                 </GridItem>
               </GridContainer>
             </CardBody>
@@ -115,8 +117,8 @@ export default function UserProfile() {
           <Card profile>
             <CardBody profile>
               <h6 className={classes.cardCategory}>Criptomoedas Recentes</h6>
-              <h4 className={classes.cardTitle}>Últimos preços encontrados</h4>
-              <p style={{ color: "red" }}>{errorMessage}</p>
+              <h4 className={classes.cardTitle}>Últimos valores encontrados</h4>
+              <p style={{ color: "red" }}>{fetchErrorMessage}</p>
               <Table
                 tableHeaderColor="warning"
                 tableHead={["Moeda", "Nome", "Valor"]}

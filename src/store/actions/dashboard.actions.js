@@ -16,8 +16,6 @@ import { fetchStock } from "../../services/stocks.service";
 import axios from "axios";
 
 export const resetDB = () => async (dispatch) => {
-  console.log("to aqui");
-
   dispatch({
     type: RESET_DB,
   });
@@ -50,7 +48,6 @@ export const getInvestedAssets = () => async (dispatch) => {
 
   try {
     const resp = await axios.get(process.env.REACT_APP_API_URL + "/assets");
-
     dispatch(getInvestedAssetsSuccess(resp.data));
   } catch (err) {
     dispatch(getInvestedAssetsError(err));

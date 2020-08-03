@@ -13,6 +13,7 @@ import {
 const initialState = {
   isLoading: false,
   errorMessage: "",
+  assets: [],
   criptocoins: {},
   stocks: {},
 };
